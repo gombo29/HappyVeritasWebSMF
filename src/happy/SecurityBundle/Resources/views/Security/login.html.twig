@@ -1,0 +1,40 @@
+{% extends "::base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block wrapper %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Нэвтрэх хэсэг</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path("fos_user_security_check") }}" method="post" role="form">
+                            <fieldset>
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Нэвтрэх нэр" type="text" id="username" name="_username" value="{{ last_username }}" required="required" autofocus />
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Нууц үг" type="password" id="password" name="_password" required="required" />
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />Намайг сана
+                                    </label>
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <button class="btn btn-lg btn-success btn-block">Нэвтрэх</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
