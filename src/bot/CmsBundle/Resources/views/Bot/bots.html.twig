@@ -1,0 +1,345 @@
+{% extends '@happyCms/base.html.twig' %}
+
+{% block pageheader %}Мессенжер бот удирдлага{% endblock %}
+{% block body %}
+    {% set blockname = null %}
+    {% set blockCount = null %}
+    {% set groupid = null %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        {% include 'botCmsBundle:Default:flashmsg.html.twig' %}
+        <div class="col-lg-3 col-md-4 col-sm-3"
+             style="max-height: 500px;overflow: scroll">
+            <div style="margin-bottom: 10px">
+                <a href="{{ path('bot_cms_bot_group_new' , {'menu':  menu, 'bid':bid}) }}"
+                   class="btn btn-success btn-xs">Ангилал нэмэх</a>
+                <a href="{{ path('bot_cms_bot_block_list', {'menu': menu, 'bid': bid}) }}"
+                   class="btn btn-default btn-xs">Ангилал жагсаалт</a>
+            </div>
+            {% for group in botGroup %}
+                <form id="delform{{ group.id }}" style="display:none;" method="post"
+                      action="{{ path('bot_cms_bot_group_delete', {'id' : group.id, 'menu': menu, 'bid': bid}) }}">
+                </form>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <div style="width:75%;display: inline-block">
+                                {{ group.name }}
+                            </div>
+                            {% if group.isSpecial != 1 %}
+                                <div style="width: 21%;display: inline-block">
+                                    <a href="{{ path('bot_cms_bot_group_update' , {'menu': menu, 'id': group.id, 'bid': bid}) }}"
+                                       class="btn btn-success"
+                                       style="display: inline-block;color: #ffffff;width: 20px;height: 20px;"><i
+                                                class="glyphicon glyphicon-edit"
+                                                style="font-size: 10px;top: -8px;left: -4px ;"></i></a>
+                                    <a class="btn btn-danger" href="javascript:void(0);"
+                                       onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delform{{ group.id }}').submit();}"
+                                       style="display: inline-block;color: #ffffff;width: 20px;height: 20px;"><i
+                                                class="glyphicon glyphicon-trash"
+                                                style="font-size: 10px;top: -8px;left: -5px ;"></i></a>
+                                </div>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if  botBlock is defined %}
+                            {% for block in botBlock %}
+                                {% if block.botGroup.id == group.id %}
+                                    <a href="{{ path('bot_cms_bot' , {'menu':menu, 'bid' : block.id}) }}"
+                                       class="btn btn-{% if block.id == bid %}warning{% else %}primary{% endif %} btn-xs"
+                                       style="margin-bottom: 5px">{{ block.name }}
+                                        {#категори#}
+                                        {% if block.id > 4 %}[ {{ block.vCount }} ]{% endif %}</a>
+                                    {% if block.id == bid %}  {% set groupid = block.botGroup.id %}{% set blockCount = block.vCount %} {% set blockname = block.name %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <a href="{{ path('bot_cms_bot_block_new', {'gid': group.id, 'menu' : menu ,'bid' : bid}) }}"
+                           class="btn btn-success btn-xs" style="margin-bottom: 5px">Категори нэмэх</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-lg-9 col-md-8 col-sm-9" style="border-left: 2px solid #5f5c5c33;">
+            <form id="delblockform" style="display:none;" method="post"
+                  action="{{ path('bot_cms_bot_block_delete', {'id' : bid, 'menu': menu}) }}">
+            </form>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h3 style="display:inline-block;margin-top: 0;margin-right: 30px;">"{{ blockname }}"
+                    категори {% if bid > 5 %}[{{ blockCount }}]{% endif %}</h3>
+
+                <div style="width: 250px;height: 25px;margin: 0px;position: relative;text-align: center;display: inline-block;">
+                    <div style="width: 50%;margin-top: 5px;float:left;background-color: rgba(139,201,255,0.56);height: 100%;padding-top: 3px;">Идэвхитэй
+                    </div>
+                    <div style="width: 50%;margin-top: 5px;float:left;background-color:  #ff9495;height: 100%;padding-top: 3px;">Идэвхигүй
+                    </div>
+                </div>
+                <br>
+                {% if bid > 5 %}
+                    <a href="{{ path('bot_cms_bot_block_update' , {'menu':  menu, 'id': bid }) }}"
+                       class="btn btn-success btn-xs"> Категори засах
+                    </a>
+                    <a href="javascript:void(0);"
+                       onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delblockform').submit();}"
+                       class="btn btn-danger btn-xs"> Категори устгах
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if bid == 3 %}
+                <div class="col-lg-12 col-md-12 col-sm-12"
+                     style="padding-top: 10px;max-width: 100%;margin-bottom: 25px;max-height: 365px;overflow-x: scroll;">
+                    <a href="{{ path('bot_cms_bot_autocontent_new', { 'menu':  menu, 'bid': bid}) }}"
+                       class="btn btn-success">
+                        Шинээр нэмэх
+                    </a>
+                    <a href="{{ path('bot_cms_bot_autoheader_new', { 'menu':  menu, 'bid': bid}) }}"
+                       class="btn btn-success">
+                        Толгой текст нэмэх
+                    </a>
+                    <a href="javascript:void(0);" onclick="autoHeader()">Толгой текст харах &DownArrowUpArrow;</a>
+                    <p style="color:red">*Мэдээ илгээх хугацааны range хамгийн багадаа 2 минут байна!</p>
+
+                    <div id="autohead" style="display: none">
+                        <h3>Толгой текст хэсэг</h3>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Эхлэх огноо</th>
+                                <th>Дуусах огноо</th>
+                                <th>Агуулга</th>
+                                <th>Үүсгэсэн огноо</th>
+                                <th>Зассан огноо</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set i = 0 %}
+                            {% for ac in botAutoHeader %}
+
+                                <form id="delautheaderform{{ ac.id }}" style="display:none;" method="post"
+                                      action="{{ path('bot_cms_bot_autoheader_delete', {'id': ac.id , 'bid' : bid, 'menu': menu}) }}">
+                                </form>
+                                {% set i = i + 1 %}
+                                <tr>
+                                    <td>{{ i }}</td>
+                                    <td>{{ ac.startDate|date('Y-m-d H:i:s') }}</td>
+                                    <td {% if ac.endDate|date('Y-m-d H:i:s') > "now"|date("Y-m-d H:i:s") %} style="background-color: #8bc9ff;"{% else %}style="background-color: #ff9495;"{% endif %}>{{ ac.endDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>{{ ac.content }}</td>
+                                    <td>{{ ac.createdDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>{{ ac.updatedDate|date('Y-m-d H:i:s') }}</td>
+                                    <td>
+                                        <a class="btn btn-primary"
+                                           href="{{ path('bot_cms_bot_autoheader_update', {'id': ac.id , 'bid' : bid, 'menu': menu}) }}">Засах</a>
+                                        <a class="btn btn-danger" href="javascript:void(0);"
+                                           onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delautheaderform{{ ac.id }}').submit();}">Устгах</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <h3>Автоматаар илгээгдсэх мэдээний хэсэг</h3>
+                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Илгээх огноо</th>
+                            <th>Мэдээ</th>
+                            <th>Үүсгэсэн огноо</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set i = 0 %}
+                        {% for ac in botAutoContent %}
+                            <form id="delautocontentform{{ ac.id }}" style="display:none;" method="post"
+                                  action="{{ path('bot_cms_bot_autocontent_delete', {'id': ac.id , 'bid' : bid, 'menu': menu}) }}">
+                            </form>
+                            {% set i = i + 1 %}
+                            <tr>
+                                <td>{{ i }}</td>
+                                <td {% if ac.sendDate|date('Y-m-d H:i:s') > "now"|date("Y-m-d H:i:s") %} style="background-color: #8bc9ff;"{% else %}style="background-color: #ff9495;"{% endif %} >{{ ac.sendDate|date('Y-m-d H:i:s') }}</td>
+                                <td>{{ ac.botContent.title }}
+                                    {% for ne in botAutoHeader %}
+                                        {% if ne.startDate|date('Y-m-d H:i:s') <= ac.sendDate|date('Y-m-d H:i:s') and ne.endDate|date('Y-m-d H:i:s') >= ac.sendDate|date('Y-m-d H:i:s') %}
+                                            <i style="color: darkgray;display: block">
+                                                {{ ne.content }}
+                                            </i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ ac.createdDate|date('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('bot_cms_bot_autocontent_update', {'id': ac.id , 'bid' : bid, 'menu': menu}) }}">Засах</a>
+                                    <a class="btn btn-danger" href="javascript:void(0);"
+                                       onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delautocontentform{{ ac.id }}').submit();}">Устгах</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="col-lg-12 col-md-12 col-sm-12"
+                     style="padding-top: 10px;max-width: 100%;margin-bottom: 25px;max-height: 365px;overflow-x: scroll;">
+                    <p style="color: red">*Дээд тал нь 3 холбоос нэмэх боложтой!</p>
+
+                    {% for content in botContent %}
+                        <form id="delcontentform{{ content.id }}" style="display:none;" method="post"
+                              action="{{ path('bot_cms_bot_content_delete', {'id' : content.id, 'menu': menu, 'bid': bid}) }}">
+                        </form>
+
+                        <div style="display: inline-block; position: relative; width:250px;height: 100%;border: 1px solid #9fd5efb3;vertical-align: top;margin-right: 20px;margin-bottom: 10px">
+                            <div style="position:absolute; right:0; top: 0;z-index: 1;">
+                                {% if groupid != 2 %}
+                                <a href="{{ path('bot_cms_bot_content_update', {'menu' : menu , 'id': content.id ,'bid': bid }) }}"
+                                   style="display: inline-block;width:20px;height: 20px" class="btn btn-success">
+                                    {% else %}
+                                    <a href="{{ path('bot_cms_bot_content_update', {'menu' : menu , 'id': content.id ,'bid': bid , 'm': 1}) }}"
+                                       style="display: inline-block;width:20px;height: 20px" class="btn btn-success">
+                                        {% endif %}
+
+                                        <i style="font-size: 10px;top: -8px;left: -5px;"
+                                           class="glyphicon glyphicon-edit"></i></a>
+                                    <a href="javascript:void(0);"
+                                       onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delcontentform{{ content.id }}').submit();}"
+                                       style="display: inline-block;;width:20px;height: 20px" class="btn btn-danger"><i
+                                                style="font-size: 10px;top: -8px;left: -5px;"
+                                                class="glyphicon glyphicon-trash"></i></a>
+                            </div>
+
+                            {% if content.type == 1 %}
+                                <div style="width: 100%;height: 30%;overflow: hidden;position:relative;">
+                                    <div style="position: absolute;left:5px;top:5px;background-color: #ffffff;padding: 0 5px;">
+                                        Мэдээ
+                                    </div>
+                                    <img src="{% if content.img %}{{ content.img }}{% else %}{{ asset('stat/bot/no-img.jpeg') }}{% endif %}"
+                                         style="width:100%;">
+                                    <div style="position: absolute;left:5px;bottom:5px;background-color: #ffffff;padding: 0 5px;">
+                                        Үзсэн: {{ content.vCount }}
+                                    </div>
+                                    <div style="position: absolute;right:5px;bottom:5px;background-color: #ffffff;padding: 0 5px;">
+                                        Хаагдах: {{ content.endDate|date('Y-m-d') }}
+                                    </div>
+                                </div>
+                                <div style="{% if content.endDate|date("'Y-m-d H:i:s'") > "now"|date("'Y-m-d H:i:s'") and content.publishDate|date("'Y-m-d H:i:s'") < "now"|date("'Y-m-d H:i:s'") %}background-color: rgba(139,201,255,0.56);{% else %}background-color: #ff9495;{% endif %}width: 100%; height: 20%;padding:10px;border-bottom: 1px solid #9fd5efb3;">
+                                    <h6 style="margin: 0">{{ content.title }}</h6>
+                                </div>
+                                <div style="width: 100%; height: 50%;padding:10px;">
+                                    <h6 style="margin: 0;font-weight: 300">{{ content.desc }}</h6>
+                                </div>
+                            {% elseif content.type == 2 %}
+                                <div style="padding:10px;position: relative">
+                                    <div style="position: absolute;left:5px;top:5px;background-color: #ffffff;padding: 0 5px;">
+                                        Текст
+                                    </div>
+                                    <h6 style="padding: 20px 0">{{ content.title }}</h6>
+                                </div>
+                            {% elseif content.type == 3 %}
+                                <div style="padding:10px;position: relative">
+                                    <div style="position: absolute;left:5px;top:5px;background-color: #ffffff;padding: 0 5px;">
+                                        Зураг
+                                    </div>
+                                    <img src="{% if content.img %}{{ content.img }}{% else %}{{ asset('stat/bot/no-img.jpeg') }}{% endif %}"
+                                         style="width:100%;padding: 20px 0px;">
+                                </div>
+                            {% else %}
+                            {% endif %}
+                            {#{% if content.botBlock.botGroup.id != 2 %}#}
+                            {% set countLink = 0 %}
+                            {% if content.buttons is defined  and content.buttons != null %}
+                                {% for button in content.buttons %}
+                                    {% set countLink = countLink + 1 %}
+                                    <div style="width: 100%; height: 10%;padding:10px;border-top: 1px solid #9fd5efb3;background-color: #80808033;">
+                                        <form id="delblockform{{ button.id }}" style="display:none;" method="post"
+                                              action="{{ path('bot_cms_bot_button_delete', {'id' : button.id, 'menu': menu, 'bid': bid}) }}">
+                                        </form>
+                                        <h6 style="margin-top: 0"> Холбоос нэр: {{ button.name }}</h6>
+                                        <a href="{{ path('bot_cms_bot' , {'menu':menu, 'bid' : button.blockId}) }}"
+                                           class="btn btn-{% if button.blockId == bid %}warning{% else %}primary{% endif %} btn-xs"
+                                           style="display: inline-block;">Блок нэр: {{ button.blockName }}</a>
+                                        <a href="{{ path('bot_cms_bot_button_update', {'menu' : menu , 'id': button.id ,'bid': bid }) }}"
+                                           style="display: inline-block;width:20px;height: 20px"
+                                           class="btn btn-success"><i style="font-size: 10px;top: -8px;left: -5px;"
+                                                                      class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="javascript:void(0);"
+                                           onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delblockform{{ button.id }}').submit();}"
+                                           style="display: inline-block;;width:20px;height: 20px"
+                                           class="btn btn-danger"><i style="font-size: 10px;top: -8px;left: -5px;"
+                                                                     class="glyphicon glyphicon-trash"></i></a>
+
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if content.type != 1 %}
+                                <div style="width: 100%; height: 10%;">
+                                    {% if countLink >= 3 %}
+                                        <a href="javascript:void(0);"
+                                           class="btn btn-default"
+                                           onclick="alert('Дээд тал нь 3 холбоос нэмэх боломжтой!')"
+                                           style="width:100%;border-radius: 0;border: none;border-top: 1px solid #9fd5efb3;">
+                                            Холбоос нэмэх
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('bot_cms_bot_button_new', {'menu': menu , 'bid': bid, 'cid' : content.id}) }}"
+                                           class="btn btn-default"
+                                           style="width:100%;border-radius: 0;border: none;border-top: 1px solid #9fd5efb3;">
+                                            Холбоос нэмэх
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        {% if groupid != 2 %}
+                            <div class="btn-group" role="group">
+                                <a href="{{ path('bot_cms_bot_content_new' ,{'menu': menu, 'bid': bid ,'type': 1}) }}"
+                                   class="btn btn-default">
+                                    <i class="glyphicon glyphicon-list-alt"></i>
+                                    <h6>Мэдээ</h6>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div class="btn-group" role="group">
+                            {% if groupid != 2 %}
+                            <a href="{{ path('bot_cms_bot_content_new' ,{'menu': menu, 'bid': bid ,'type': 2}) }}"
+                               class="btn btn-default">
+                                {% else %}
+                                <a href="{{ path('bot_cms_bot_content_new' ,{'menu': menu, 'bid': bid ,'type': 2,  'm': 1}) }}"
+                                   class="btn btn-default">
+                                    {% endif %}
+                                    <i class="glyphicon glyphicon-text-height"></i>
+                                    <h6>Текст</h6>
+                                </a>
+                        </div>
+                        {% if groupid != 2 %}
+                            <div class="btn-group" role="group">
+                                <a href="{{ path('bot_cms_bot_content_new' ,{'menu': menu, 'bid': bid ,'type': 3}) }}"
+                                   class="btn btn-default">
+                                    <i class="glyphicon glyphicon-picture"></i>
+                                    <h6>Зураг</h6>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function autoHeader() {
+            $('#autohead').toggle();
+        }
+    </script>
+{% endblock %}

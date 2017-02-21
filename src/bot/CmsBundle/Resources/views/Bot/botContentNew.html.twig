@@ -1,0 +1,75 @@
+{% extends '@happyCms/base.html.twig' %}
+
+{% block title %}Messenger Bot{% endblock %}
+{% block titlecont %}<h1>Messenger Bot</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-9 col-md-9 col-sm-8">
+
+        <h3>
+            {% if type == 1 %}
+                Агуулга
+            {% elseif type == 2 %}
+                Текст
+            {% elseif type == 3 %}
+                Зураг
+            {% endif %} нэмэх хэсэг
+        </h3>
+        {{ form_start(form) }}
+
+        {% if type == 1 %}
+            {{ form_row(form.title) }}
+            {#{{ form_row(form.titleEn) }}#}
+            {% if bid == 0 %}
+                {{ form_row(form.botBlock) }}
+            {% endif %}
+            {{ form_row(form.link) }}
+            {{ form_row(form.desc) }}
+            {#{{ form_row(form.descEn) }}#}
+            {{ form_row(form.publishDate) }}
+            {{ form_row(form.endDate) }}
+            {{ form_row(form.isUpload) }}
+            {{ form_row(form.img) }}
+            {{ form_row(form.imagefile) }}
+        {% elseif type == 2 %}
+            {{ form_rest(form) }}
+        {% elseif type == 3 %}
+            {{ form_row(form.isUpload) }}
+            {{ form_row(form.img) }}
+            {{ form_row(form.imagefile) }}
+        {% endif %}
+
+        <button type="submit" class="btn btn-success">Нэмэх</button>
+        {% if bid == 0 %}
+            <a href="{{ path('bot_cms_content', {'menu' : menu,'page': 1}) }}" class="btn btn-primary">Буцах</a>
+        {% else %}
+            <a href="{{ path('bot_cms_bot', {'menu' : menu,'bid': bid}) }}" class="btn btn-primary">Буцах</a>
+        {% endif %}
+        {{ form_end(form) }}
+    </div>
+    <script>
+
+        if ($('#bot_cmsbundle_content_isUpload_1').is(':checked')) {
+            $('.form-group-img').show();
+            $('.form-group-imagefile').hide();
+        }
+
+        if ($('#bot_cmsbundle_content_isUpload_0').is(':checked')) {
+            $('.form-group-img').hide();
+            $('.form-group-imagefile').show();
+        }
+
+        $('#bot_cmsbundle_content_isUpload_1').click(function () {
+
+            $('.form-group-img').show();
+            $('.form-group-imagefile').hide();
+        });
+
+        $('#bot_cmsbundle_content_isUpload_0').click(function () {
+
+            $('.form-group-img').hide();
+            $('.form-group-imagefile').show();
+        });
+
+    </script>
+{% endblock %}
