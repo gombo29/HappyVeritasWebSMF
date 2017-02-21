@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Мессенжер бот хэрэглэгчид{% endblock %}
+{% block titlecont %}<h1>Мессенжер бот хэрэглэгчид</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-6 col-md-8 col-sm-12">
+        <table class="table table-hover table-striped">
+            {% for b in botSdr %}
+                <tr>
+                    <td> Хэрэглэгч нэр:</td>
+                    <td>{{ b.firstName }}  {{ b.lastName }}</td>
+                </tr>
+                <tr>
+                    <td> Хэрэглэгч зураг:</td>
+                    <td><img src="{{ b.profileImg }}" width="100"></td>
+                </tr>
+                <tr>
+                    <td> Хэрэглэгч id:</td>
+                    <td>{{ b.senderId }}</td>
+                </tr>
+                <tr>
+                    <td> Хүйс:</td>
+                    <td>{{ b.gender }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        Сүүлд холбогдсон огноо:
+                    </td>
+                    <td>
+                        {{ b.lastLogin|date('Y-m-d H:i:s') }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Бүртгүүлсэн огноо:
+                    </td>
+                    <td>
+                        {{ b.createdDate|date('Y-m-d H:i:s') }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Категориуд:</td>
+                    <td>
+                        {% for s in botSdrNews %}
+                            <a href="{{ path('bot_cms_bot', {'menu' : 1, 'id': s.id}) }}" class=" btn btn-primary btn-xs">{{ s.name }} [ {{ s.cnt }} ]</a>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
