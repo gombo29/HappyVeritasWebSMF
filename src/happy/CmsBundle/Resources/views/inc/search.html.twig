@@ -1,0 +1,33 @@
+<style>
+    .form-inline .form-group{width: 50%;}
+    .form-inline .form-group label{margin-right: 10px;}
+</style>
+
+
+
+{% if type is defined %}
+<form class="form-inline" action="{{ path(route, {'page' : 1, 'type' : type}) }}" method="get" {{ form_enctype(searchform) }}>
+{% elseif service is defined %}
+<form class="form-inline" action="{{ path(route, {'page' : 1, 'service' : service}) }}" method="get" {{ form_enctype(searchform) }}>
+{% else %}
+<form class="form-inline" action="{{ path(route, {'page' : 1}) }}" method="get" {{ form_enctype(searchform) }}>
+    {% endif %}
+
+    {{ form_errors(searchform) }}
+    {{ form_rest(searchform) }}
+
+    <div class="col-sm-12" style="text-align: center;margin-top: 10px; margin-bottom: 10px">
+        <a href="javascript:void(0)" class="btn btn-warning" onclick="resetSearchData()">Clear data</a>
+        <button class="btn btn-success" type="submit" name="submit" value="submit">{{ 'Search'|trans }}</button>
+    </div>
+    <div style="clear:both;"></div>
+</form>
+
+    <script>
+        function resetSearchData()
+        {
+            $.each($('.form-control'), function (key, val) {
+                $(this).val('');
+            });
+        }
+    </script>

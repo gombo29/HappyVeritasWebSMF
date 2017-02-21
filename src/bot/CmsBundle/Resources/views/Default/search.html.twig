@@ -1,0 +1,13 @@
+{% if type is defined %}
+<form action="{{ path(route, {'page' : 1, 'type': type}) }}" method="get" {{ form_enctype(searchform) }}>
+{% else %}
+<form action="{{ path(route, {'page' : 1}) }}" method="get" {{ form_enctype(searchform) }}>
+    {% endif %}
+    {{ form_errors(searchform) }}
+    {{ form_rest(searchform) }}
+
+    <div class="col-sm-12" style="text-align: center;margin-top: 10px; margin-bottom: 10px">
+        <button class="btn btn-success" type="submit" name="submit" value="submit">{{ 'Хайлт'|trans }}</button>
+    </div>
+    <div style="clear:both;"></div>
+</form>

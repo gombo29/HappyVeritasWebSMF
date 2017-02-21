@@ -1,0 +1,9 @@
+parameters:
+#    bot_web.example.class: bot\WebBundle\Example
+    fb_mobicom_bot_access_token: "EAAPb4W3n9O4BAJ4OOT7uiX0WM1QfZBWWbf9X5WH7CLC12o1ZBzbN9YHRwSw9tIy2oAHo2WjRDgRZBS1DBiF1SV8inwgJ35R4uYfUK0nb0INYj0ctIwEnfaMEHV6Am7XukorDWu5qGtBP4OJuEr7wfMAYp44O97wQ32eEsmzewZDZD"
+    fb_mobicom_bot_verify_token: "mobicom_bot"
+    fb_mobicom_bot_app_key: "a3ecaa22d20eb381513492e7a3dea959"
+services:
+#    bot_web.example:
+#        class: %bot_web.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

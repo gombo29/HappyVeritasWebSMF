@@ -1,0 +1,7 @@
+parameters:
+#    bot_cms.example.class: bot\CmsBundle\Example
+
+services:
+#    bot_cms.example:
+#        class: %bot_cms.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

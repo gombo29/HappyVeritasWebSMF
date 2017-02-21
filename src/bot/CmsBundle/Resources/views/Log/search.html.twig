@@ -1,0 +1,42 @@
+<style>select {width: auto;}
+#gogo_adminbundle_adminlog_fromognoo_time,#gogo_adminbundle_adminlog_fromognoo_date,
+#gogo_adminbundle_adminlog_toognoo_date,#gogo_adminbundle_adminlog_toognoo_time{float:left;margin-right: 10px;}</style>
+<form class="form-horizontal"action="{{ path('bot_cms_admin_log') }}" method="get" {{ form_enctype(form) }}>
+    <div id="form">
+        {{ form_errors(form) }}
+        <div>
+            <div style="float: left;">
+            {{ form_label(form.username) }}
+            {{ form_errors(form.username) }}
+            {{ form_widget(form.username) }}
+            </div>
+            
+                <div style="float: left;">
+            {{ form_label(form.log) }}
+            {{ form_errors(form.log) }}
+            {{ form_widget(form.log) }}
+            </div>
+                <div style="float: left;">
+            {{ form_label(form.ip) }}
+            {{ form_errors(form.ip) }}
+            {{ form_widget(form.ip) }}
+            </div>
+        </div>
+            <div>
+            {{ form_label(form.fromognoo) }}
+            {{ form_errors(form.fromognoo) }}
+            {{ form_widget(form.fromognoo) }} <span style="line-height: 27px;float: left;">-ээс</span>
+            </div>
+            <div>
+            {{ form_label(form.toognoo) }}
+            {{ form_errors(form.toognoo) }}
+            {{ form_widget(form.toognoo) }} <span style="line-height: 27px;">хүртэл</span>
+            </div>
+            <div>
+                <label> &nbsp; </label><button  class="btn btn-success" type="submit" name="submit" value="submit">{{'Хайх'|trans}}</button>
+            </div>
+        </div>
+        {{ form_rest(form) }}
+    </div>
+        <div style="clear:both;"></div>
+</form>
