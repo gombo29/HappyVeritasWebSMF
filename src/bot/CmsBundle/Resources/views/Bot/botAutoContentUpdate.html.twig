@@ -1,0 +1,18 @@
+{% extends '@happyCms/base.html.twig' %}
+
+{% block title %}Messenger Bot{% endblock %}
+{% block titlecont %}<h1>Messenger Bot</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-9 col-md-9 col-sm-8">
+
+        <h3>
+            Автоматаар илгээх контент засах хэсэг
+        </h3>
+        {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="btn btn-success">Нэмэх</button>
+        <a href="{{ path('bot_cms_bot', {'menu' : menu,'bid': bid}) }}" class="btn btn-primary">Буцах</a>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
