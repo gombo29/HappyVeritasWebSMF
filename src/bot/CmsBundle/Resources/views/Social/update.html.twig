@@ -1,0 +1,153 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Сошиал сувгийн хуудас{% endblock %}
+{% block titlecont %}<h1>Сошиал сувгийн хуудас</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-9 col-md-9 col-sm-8">
+        <h3>
+            Content засах хэсэг
+        </h3>
+
+        {% if entity %}
+            {% if entity.img %}<img src="{{ entity.img }}" width="200">{% endif %}
+        {% endif %}
+        {{ form_start(form) }}
+
+        {{ form_row(form.tab) }}
+
+        <div class="form-group form-group-tab" id="zuragBaraa"
+             style="{% if entity.proImgId != null %}display: block;{% else %}display: none{% endif %}">
+            <label for="imgId">Гар утасны зураг сонгох</label>
+            <select id="imgId" name="imgId" class="form-control">
+                <option value=""> -------- Сонгоно уу --------</option>
+                {% for p in  pro %}
+                    <option value="{{ p.id }}" {% if entity.proImgId == p.id %} selected{% endif %}> {{ p.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group form-group-tab" id="cardIs"
+             style="{% if entity.cardId != null %}display: block;{% else %}display: none{% endif %}">
+            <label for="cardId">Карт сонгох</label>
+            <select id="cardId" name="cardId" class="form-control">
+                <option value=""> -------- Сонгоно уу --------</option>
+                {% for p in  card %}
+                    <option value="{{ p.id }}" {% if entity.cardId == p.id %} selected{% endif %}> {{ p.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        {{ form_row(form.title) }}
+        {{ form_row(form.publishDate) }}
+        {{ form_row(form.endDate) }}
+
+        {{ form_row(form.isEmbed) }}
+        {{ form_row(form.embed) }}
+
+        {{ form_row(form.isUpload) }}
+        {{ form_row(form.img) }}
+        {{ form_row(form.imagefile) }}
+        {{ form_row(form.link) }}
+        {{ form_row(form.isTarget) }}
+        <div style="display: none" id="datanuud">
+            {{ form_row(form.body) }}
+            {{ form_row(form.video) }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Засах</button>
+        <a href="{{ path('bot_cms_social') }}" class="btn btn-primary">Буцах</a>
+        {{ form_end(form) }}
+    </div>
+
+    <script>
+
+        CKEDITOR.replace('{{ form.body.vars.id }}', {
+            allowedContent: true
+        });
+
+        $('#bot_cmsbundle_social_content_tab').change(function () {
+            if ($(this).val() == 4) {
+                $('#zuragBaraa').show();
+                $('#imgId').val('{{ entity.proImgId }}');
+            }
+            else {
+                $('#zuragBaraa').hide();
+                $('#imgId').val('');
+            }
+        });
+
+        $('#bot_cmsbundle_social_content_tab').change(function () {
+            if ($(this).val() == 6) {
+                $('#cardIs').show();
+                $('#cardId').val('{{ entity.cardId }}');
+            }
+            else {
+                $('#cardIs').hide();
+                $('#cardId').val('');
+            }
+        });
+
+
+        if ($('#bot_cmsbundle_social_content_isUpload_1').is(':checked')) {
+            $('.form-group-img').show();
+            $('.form-group-imagefile').hide();
+        }
+
+        if ($('#bot_cmsbundle_social_content_isUpload_0').is(':checked')) {
+            $('.form-group-img').hide();
+            $('.form-group-imagefile').show();
+        }
+
+
+        if ($('#bot_cmsbundle_social_content_isEmbed_1').is(':checked')) {
+            $('.form-group-embed').hide();
+        }
+
+        if ($('#bot_cmsbundle_social_content_isEmbed_0').is(':checked')) {
+            $('.form-group-embed').show();
+        }
+
+
+        $('#bot_cmsbundle_social_content_isUpload_1').click(function () {
+
+            $('.form-group-img').show();
+            $('.form-group-imagefile').hide();
+        });
+
+        $('#bot_cmsbundle_social_content_isUpload_0').click(function () {
+
+            $('.form-group-img').hide();
+            $('.form-group-imagefile').show();
+        });
+
+        $('#bot_cmsbundle_social_content_isEmbed_1').click(function () {
+
+            $('.form-group-embed').hide();
+        });
+
+        $('#bot_cmsbundle_social_content_isEmbed_0').click(function () {
+
+            $('.form-group-embed').show();
+        });
+
+        if ($('#bot_cmsbundle_social_content_isTarget_1').is(':checked')) {
+            $('#datanuud').show();
+        }
+
+        if ($('#bot_cmsbundle_social_content_isTarget_0').is(':checked')) {
+            $('#datanuud').hide();
+        }
+
+        $('#bot_cmsbundle_social_content_isTarget_1').click(function () {
+
+            $('#datanuud').show();
+        });
+
+        $('#bot_cmsbundle_social_content_isTarget_0').click(function () {
+
+            $('#datanuud').hide();
+        });
+
+    </script>
+{% endblock %}
