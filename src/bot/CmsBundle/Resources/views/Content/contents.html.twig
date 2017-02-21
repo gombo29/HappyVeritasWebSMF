@@ -1,0 +1,63 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Мессенжер бот мэдээлэл{% endblock %}
+{% block titlecont %}<h1>Мессенжер бот мэдээлэл</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <a class="btn btn-success" href="{{ path('bot_cms_bot_content_new' ,{'bid': 0, 'type': 1}) }}">Шинэ мэдээ
+            нэмэх</a>
+        <a href="javascript:void(0)" id="searchlink">Хайх &DownArrowUpArrow;</a>
+        <fieldset style="border:1px solid #ddd;{%if search%}display:block{%else%}display:none;{% endif %}"
+                  id="searchpad">
+            {% include '@botCms/Default/search.html.twig' with {'route' : 'bot_cms_content'} %}
+        </fieldset>
+        {% include 'botCmsBundle:Default:flashmsg.html.twig' %}
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Id</th>
+                <th>Зураг</th>
+                <th>Гарчиг</th>
+                <th>Үзсэн тоо</th>
+                <th>Үүсгэсэн огноо</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set i = 0 %}
+            {% for e in botContent %}
+                {% set i = i + 1 %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{{ e.id }}</td>
+                    <td><img src="{{ e.img|staturl(false) }}" width="100"></td>
+                    <td><a href="{{ e.link }}" target="_blank">{{ e.title }}</a></td>
+                    <td>{{ e.vCount }}</td>
+                    <td>{{ e.createdDate|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a class="btn btn-primary"
+                           href="{{ path('bot_cms_bot_content_update',{'id': e.id, 'menu': 2, 'bid': e.botBlock.id,'con':1 }) }}">Засах</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include '@botCms/Default/page.html.twig' with {'route' : 'bot_cms_content'} %}
+    </div>
+
+    <script type="text/javascript">
+        if (window.location.search != '') {
+            $.each($('.pagination a'), function (key, val) {
+                $(this).attr('href', $(this).attr('href') + window.location.search);
+            });
+        }
+        $(document).ready(function () {
+            $('#searchlink').click(function () {
+                $('#searchpad').toggle();
+            });
+        });
+    </script>
+{% endblock %}

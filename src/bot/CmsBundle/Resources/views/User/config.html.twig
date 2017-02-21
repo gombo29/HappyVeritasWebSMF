@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Мессенжер бот тохиргоо{% endblock %}
+{% block titlecont %}<h1>Мессенжер бот тохиргоо</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-9 col-md-9 col-sm-8">
+
+        {% include 'botCmsBundle:Default:flashmsg.html.twig' %}
+        <h3>
+            Тохиргоо хэсэг
+        </h3>
+        {{ form_start(form, {'attr': {'id': 'configform'}}) }}
+        {{ form_rest(form) }}
+        <a onclick="checkfunction()" class="btn btn-success">Тохируулах</a>
+        <a href="{{ path('bot_cms_bot', {'menu' : menu, 'bid': 1}) }}" class="btn btn-primary">Буцах</a>
+        {{ form_end(form) }}
+    </div>
+    <script>
+        function checkfunction() {
+            $val = $("#bot_cmsbundle_config_endMsgDate").val();
+            if ($val != null) {
+                if ($val >= 2) {
+                    $("#configform").submit();
+                }
+                else {
+                    alert('Төгсгөлийн мэдээ хэсэгт зөв утга оруулна уу!')
+                }
+            }
+        }
+    </script>
+{% endblock %}
