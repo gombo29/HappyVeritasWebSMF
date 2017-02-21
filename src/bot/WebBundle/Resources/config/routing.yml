@@ -1,0 +1,23 @@
+bot_web_homepage:
+    path:     /chat
+    defaults: { _controller: botWebBundle:Default:index }
+
+bot_web_page:
+    path:     /page/{tabid}
+    defaults: { _controller: botWebBundle:Page:index }
+    requirements:
+              tabid: \d+
+
+bot_web_test:
+    path:     /test
+    defaults: { _controller: botWebBundle:Default:test }
+
+bot_web_count:
+    path:     /news/{newsId}
+    defaults: { _controller: botWebBundle:CountContent:index }
+    requirements:
+              id: \d+
+
+bot_web_cron_:
+    path:     /cron
+    defaults: { _controller: botWebBundle:Default:cron }

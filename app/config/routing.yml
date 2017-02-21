@@ -1,0 +1,25 @@
+bot_web:
+    resource: "@botWebBundle/Resources/config/routing.yml"
+    prefix:   /bot
+
+bot_cms:
+    resource: "@botCmsBundle/Resources/config/routing.yml"
+    prefix:   /gombo
+
+happy_web:
+    resource: "@happyWebBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+happy_security:
+    resource: "@happySecurityBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+happy_cms:
+    resource: "@happyCmsBundle/Controller/"
+    type:     annotation
+    prefix:   /gombo
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

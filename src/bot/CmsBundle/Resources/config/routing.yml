@@ -1,0 +1,240 @@
+# =============== Bot ==============
+
+bot_cms_bot:
+    path:     /bot/conf/{menu}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:bot, menu: 1, bid: 1}
+    requirements:
+                    menu: \d+
+                    bid: \d+
+
+# =============== Bot Group ==============
+
+bot_cms_bot_group_new:
+    path:     /bot/conf/group/new/{menu}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botGroupNew, menu: 1 }
+    requirements:
+                menu: \d+
+                bid: \d+
+
+bot_cms_bot_group_update:
+    path:     /bot/conf/group/update/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botGroupUpdate }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+bot_cms_bot_group_delete:
+    path:     /bot/conf/group/delete/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botGroupDelete, menu: 1 }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+# =============== Bot Block ==============
+
+bot_cms_bot_block_new:
+    path:     /bot/conf/block/new/{menu}/{gid}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botBlockNew, menu: 1 }
+    requirements:
+                menu: \d+
+                gid: \d+
+                bid: \d+
+
+bot_cms_bot_block_update:
+    path:     /bot/conf/block/update/{menu}/{id}
+    defaults: { _controller: botCmsBundle:Bot:botBlockUpdate }
+    requirements:
+            id: \d+
+            menu: \d+
+
+bot_cms_bot_block_delete:
+    path:     /bot/conf/block/delete/{menu}/{id}
+    defaults: { _controller: botCmsBundle:Bot:botBlockDelete, menu: 1 }
+    requirements:
+            id: \d+
+            menu: \d+
+
+bot_cms_bot_block_list:
+    path:     /bot/blocklist/{menu}/{page}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botlist, menu: 1, bid: 1, page: 1}
+    requirements:
+                    menu: \d+
+                    bid: \d+
+                    page: \d+
+
+# =============== Bot Content ==============
+
+bot_cms_bot_content_new:
+    path:     /bot/conf/content/new/{menu}/{bid}/{type}
+    defaults: { _controller: botCmsBundle:Bot:botContentNew, menu: 1 }
+    requirements:
+                menu: \d+
+                bid: \d+
+                type: \d+
+
+bot_cms_bot_content_update:
+    path:     /bot/conf/content/update/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botContentUpdate }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+bot_cms_bot_content_delete:
+    path:     /bot/conf/content/delete/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botContentDelete, menu: 1 }
+    requirements:
+            id: \d+
+            bid: \d+
+
+# =============== Bot Button ==============
+
+bot_cms_bot_button_new:
+    path:     /bot/conf/button/new/{menu}/{bid}/{cid}
+    defaults: { _controller: botCmsBundle:Bot:botButtonNew, menu: 1 }
+    requirements:
+                menu: \d+
+                bid: \d+
+                cid: \d+
+
+bot_cms_bot_button_update:
+    path:     /bot/conf/button/update/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botButtonUpdate }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+bot_cms_bot_button_delete:
+    path:     /bot/conf/button/delete/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botButtonDelete, menu: 1 }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+# =============== Bot Auto Sender ==============
+
+
+bot_cms_bot_autocontent_new:
+    path:     /bot/conf/autocontent/new/{menu}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botAutoContentNew, menu: 1 }
+    requirements:
+                menu: \d+
+                bid: \d+
+
+bot_cms_bot_autocontent_update:
+    path:     /bot/conf/autocontent/update/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botAutoContentUpdate }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+bot_cms_bot_autocontent_delete:
+    path:     /bot/conf/autocontent/delete/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botAutoContentDelete, menu: 1 }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+# =============== Bot News ==============
+
+bot_cms_content:
+    path:     /bot/content/{menu}/{page}
+    defaults: { _controller: botCmsBundle:Content:content, menu: 2 , page: 1 }
+    requirements:
+                menu: \d+
+                page: \d+
+
+bot_cms_user:
+    path:     /bot/user/{menu}/{page}
+    defaults: { _controller: botCmsBundle:User:user, menu: 3, page: 1 }
+    requirements:
+            menu: \d+
+            page: \d+
+
+bot_cms_user_detail:
+    path:     /bot/user/detail{menu}/{id}
+    defaults: { _controller: botCmsBundle:User:detail, menu: 3 }
+    requirements:
+            menu: \d+
+            id: \d+
+
+bot_cms_user_config:
+    path:     /bot/config/{menu}
+    defaults: { _controller: botCmsBundle:User:config, menu: 3 }
+    requirements:
+            menu: \d+
+
+bot_cms_admin_log:
+    path:     /bot/adminlog/{page}
+    defaults: { _controller: botCmsBundle:BotLog:index , page: 1 }
+    requirements:
+          page: \d+
+
+# =============== Bot auto header ==============
+
+bot_cms_bot_autoheader_new:
+    path:     /bot/conf/autoheader/new/{menu}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botAutoHeaderNew, menu: 1 }
+    requirements:
+                menu: \d+
+                bid: \d+
+
+bot_cms_bot_autoheader_update:
+    path:     /bot/conf/autoheader/update/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botAutoHeaderUpdate }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+bot_cms_bot_autoheader_delete:
+    path:     /bot/conf/autoheader/delete/{menu}/{id}/{bid}
+    defaults: { _controller: botCmsBundle:Bot:botAutoHeaderDelete, menu: 1 }
+    requirements:
+            id: \d+
+            menu: \d+
+            bid: \d+
+
+# =============== Social Tab ==============
+
+bot_cms_social:
+    path:     /social/content/{page}/{type}
+    defaults: { _controller: botCmsBundle:Page:index, page: 1, type: 0 }
+    requirements:
+                page: \d+
+                type: \d+
+
+bot_cms_social_new:
+    path:     /social/content/new
+    defaults: { _controller: botCmsBundle:Page:new}
+
+bot_cms_social_update:
+    path:     /social/content/update/{id}
+    defaults: { _controller: botCmsBundle:Page:update}
+    requirements:
+                    id: \d+
+
+bot_cms_social_delete:
+    path:     /social/content/delete/{id}
+    defaults: { _controller: botCmsBundle:Page:delete}
+    requirements:
+                    id: \d+
+
+bot_cms_social_change_order:
+    path:     /social/content/order
+    defaults: { _controller: botCmsBundle:Page:order}
+
+bot_cms_social_show:
+    path:     /social/show/{id}
+    defaults: { _controller: botCmsBundle:Page:show}
+    requirements:
+                        id: \d+
+
+
+
+
