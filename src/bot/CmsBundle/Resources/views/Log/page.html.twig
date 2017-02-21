@@ -1,0 +1,61 @@
+{% if pagecount>1%}
+<div>
+	{% set range=2 %}
+    <ul class="pagination">
+    		{% if 1<page%}
+                <li class="prev">
+                    <a href="{{path('bot_cms_admin_log',{'page':page-1})}}" title="өмнөх">«</a>
+                </li>
+            {%else%}
+                <li class="prev disabled">
+                    <a href="javascript:void(0)" title="өмнөх">«</a>
+                </li>
+            {%endif%}
+            {% if pagecount>page%}
+                <li class="next">
+                    <a href="{{path('bot_cms_admin_log',{'page':page+1})}}" title="дараах">»</a>
+                </li>
+            {%else%}
+                <li class="next disabled">
+                    <a href="javascript:void(0)" title="дараах">»</a>
+                </li>
+            {%endif%}
+            
+    	<li class="{% if 1==page%}active{% endif %}">
+			<a href="{{path('bot_cms_admin_log',{'page':1})}}" title="хуудас 1">1</a>
+        </li>
+        
+        {% if page>1+range+1 %}
+	    	<li class="disabled"><a href="javascript:void(0)">...</a></li>
+	    {% endif %}
+	    
+        {% if pagecount>2%}
+		    {% for i in 2..pagecount-1 %}
+		        {% if i==page%}
+		            <li class="active">
+		                <a href="javascript:void(0)" title="хуудас {{i}}">{{i}}</a>
+		            </li>
+		        {%elseif page-range<=i and i<=page+range%}
+		            <li class="">
+		                <a href="{{path('bot_cms_admin_log',{'page':i})}}" title="хуудас {{i}}">{{i}}</a>
+		            </li>
+		        {%endif%}
+		    {% endfor %}
+	    {%endif%}
+	    
+	    {% if page<pagecount-range-1 %}
+	    	<li class="disabled"><a href="javascript:void(0)">...</a></li>
+	    {% endif %}
+	    
+	    <li class="{% if pagecount==page%}active{% endif %}">
+                <a href="{{path('bot_cms_admin_log',{'page':pagecount})}}" title="хуудас {{ pagecount }}">{{ pagecount }}</a>
+        </li>
+        {% if count is defined %}
+        <li class="text-info" style="line-height: 32px;">
+        &nbsp;&nbsp;&nbsp; нийт {{count}}
+        </li>
+        {% endif %}
+        	
+	</ul>
+</div>
+{%endif%}
