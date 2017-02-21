@@ -1,0 +1,113 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Сошиал сувгийн хуудас{% endblock %}
+{% block titlecont %}<h1>Сошиал сувгийн хуудас</h1>{% endblock %}
+{% block body %}
+    {% include 'botCmsBundle:Default:layout.html.twig' %}
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <a class="btn btn-success" href="{{ path('bot_cms_social_new') }}">Шинэ мэдээ
+            нэмэх</a>
+        <a href="javascript:void(0)" id="searchlink">Хайлт &DownArrowUpArrow;</a>
+
+        <a href="{{ path('bot_cms_social') }}"
+           class="btn btn-{% if type == 0 %}primary{% else %}warning{% endif %} btn-xs">Бүгд</a>
+        <a href="{{ path('bot_cms_social', {'type': 1}) }}"
+           class="btn btn-{% if type == 1 %}primary{% else %}warning{% endif %} btn-xs">Урамшуулал</a>
+        <a href="{{ path('bot_cms_social', {'type': 2}) }}"
+           class="btn btn-{% if type == 2 %}primary{% else %}warning{% endif %} btn-xs">Урьдчилсан төлбөрт</a>
+        <a href="{{ path('bot_cms_social', {'type': 3}) }}"
+           class="btn btn-{% if type == 3 %}primary{% else %}warning{% endif %} btn-xs">Дараа төлбөрт</a>
+        <a href="{{ path('bot_cms_social', {'type': 4}) }}"
+           class="btn btn-{% if type == 4 %}primary{% else %}warning{% endif %} btn-xs">Гар утас</a>
+        <a href="{{ path('bot_cms_social', {'type': 5}) }}"
+           class="btn btn-{% if type == 5 %}primary{% else %}warning{% endif %} btn-xs">Интернэт/Дата</a>
+        <a href="{{ path('bot_cms_social', {'type': 6}) }}"
+           class="btn btn-{% if type == 6 %}primary{% else %}warning{% endif %} btn-xs">Цэнэглэгч карт</a>
+        <fieldset style="border:1px solid #ddd;{%if search%}display:block{%else%}display:none;{% endif %}"
+                  id="searchpad">
+            {% include '@botCms/Default/search.html.twig' with {'route' : 'bot_cms_social'} %}
+        </fieldset>
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Зураг</th>
+                <th>Таб</th>
+                <th>Гарчиг</th>
+                <th>Нийтлэх огноо</th>
+                <th>Хаагдах огноо</th>
+                <th>Үүссэн огноо</th>
+                <th>Зассан огноо</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="sortable">
+            {% if page != 1 %}
+                {% set i = pagesize * (page - 1) %}
+            {% else %}
+                {% set i = 0 %}
+            {% endif %}
+            {% for e in socialContent %}
+                {% set i = i + 1 %}
+                <tr id="{{ e.id }}">
+                    <td>{{ i }}</td>
+                    <td><img src="{{ e.img|staturl(false) }}" width="50"></td>
+                    <td>{{ e.tab.name }}</td>
+                    <td><a href="{{ path('bot_cms_social_show', {'id': e.id}) }}" target="_blank">{{ e.title }}</a></td>
+                    <td>{% if e.publishDate != null %}{{ e.publishDate|date('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
+                    <td>{% if e.endDate != null %}{{ e.endDate|date('Y-m-d H:i:s') }}{% else %}-{% endif %}</td>
+                    <td>{{ e.createdDate|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ e.updatedDate|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <form id="delform" style="display:none;" method="post"
+                              action="{{ path('bot_cms_social_delete', {'id' : e.id}) }}">
+                        </form>
+                        <a class="btn btn-success btn-xs"
+                           href="{{ path('bot_cms_social_update', {'id': e.id }) }}">Засах</a>
+                        <a href="javascript:void(0);"
+                           onclick="if(confirm('Та итгэлтэй байна уу!')){$('#delform').submit();}"
+                           class="btn btn-danger btn-xs"> Устгах</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include '@botCms/Default/page.html.twig' with {'route' : 'bot_cms_social'} %}
+    </div>
+
+
+    <script type="text/javascript">
+
+        {% if type != 0 %}
+        $("#sortable").sortable({
+            stop: sortajax
+        }).disableSelection();
+
+        function sortajax(event, ui) {
+            var ids = $.map($(this).find("tr"), function (el) {
+                return el.id;
+            });
+            $.ajax({
+                url: '{{ path('bot_cms_social_change_order') }}',
+                type: 'POST',
+                data: {
+                    ids: ids
+                }
+            }).done(function () {
+            });
+        }
+        {% endif %}
+
+        if (window.location.search != '') {
+            $.each($('.pagination a'), function (key, val) {
+                $(this).attr('href', $(this).attr('href') + window.location.search);
+            });
+        }
+        $(document).ready(function () {
+            $('#searchlink').click(function () {
+                $('#searchpad').toggle();
+            });
+        });
+    </script>
+{% endblock %}

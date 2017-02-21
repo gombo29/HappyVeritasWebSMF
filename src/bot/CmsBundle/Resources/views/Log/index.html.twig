@@ -1,0 +1,66 @@
+{% extends '::base.html.twig' %}
+{% block title %}{{ 'Бот Log'|trans }}{% endblock %}
+{% block titlecont %}<h1>{{ 'Бот Log'|trans }}</h1>{% endblock %}
+{% block body %}
+    <style>
+        #gogo_adminbundle_adminlog_fromognoo_date,
+        #gogo_adminbundle_adminlog_toognoo_date,
+        #searchpad select {
+            float: left;
+        }
+
+        #searchpad #form input {
+            width: 200px;
+        }
+    </style>
+        <div>
+            <a href="javascript:void(0)" id="searchlink">Хайлт &DownArrowUpArrow;</a>
+            <fieldset
+                    style="border:1px solid #ddd;{%if search%}display:block{%else%}display:none;{% endif %}"
+                    id="searchpad">
+                {% include 'botCmsBundle:Log:search.html.twig' %}
+            </fieldset>
+        </div>
+
+        {% if pagecount>0 %}
+        {% include 'botCmsBundle:Log:page.html.twig' %}
+
+        <table class="records_list">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Хэн</th>
+                <th>Хэзээ</th>
+                <th>Юу</th>
+                <th>Хаанаас</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td><a href="{{ path('adminlog_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                    <td>{{ entity.username }}</td>
+                    <td>{% if entity.cognoo %}{{ entity.cognoo|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{{ entity.log }}</td>
+                    <td>{{ entity.ip }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    <script type="text/javascript">
+        if (window.location.search != '') {
+            $.each($('.pagination a'), function (key, val) {
+                $(this).attr('href', $(this).attr('href') + window.location.search);
+            })
+        }
+        $('#searchlink').click(function () {
+            $('#searchpad').toggle();
+        });
+    </script>
+
+    {% else %}
+        No log.
+    {% endif %}
+
+{% endblock %}
